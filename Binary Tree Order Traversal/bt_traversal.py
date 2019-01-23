@@ -11,10 +11,14 @@ class Solution:
             return [[root.val]]
             
         if root.left is not None and root.right is None:
-            return self.levelOrderBottom(root.left).append([root.val])
+            rv = self.levelOrderBottom(root.left)
+            rv.append([root.val])
+            return rv
             
         if root.left is None and root.right is not None:
-            return self.levelOrderBottom(root.right).append([root.val])
+            rv = self.levelOrderBottom(root.right)
+            rv.append([root.val])
+            return rv
             
         rv = self.levelOrderBottom(root.left)
         for index, elem in enumerate(reversed(self.levelOrderBottom(root.right))):
