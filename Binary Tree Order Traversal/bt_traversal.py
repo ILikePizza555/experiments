@@ -51,9 +51,13 @@ def tree_from_array(a, i=0):
 
     return TreeNode(a[i], left, right)
 
-if __name__ == "__main__":
-    tree = tree_from_array([1, 2, 3, 4, None, None, 5])
+def run_test(test, expected):
     s = Solution()
-    o = s.levelOrderBottom(tree)
+    tree = tree_from_array(test)
+    actual = s.levelOrderBottom(tree)
+    print(actual)
+    assert actual == expected
 
-    print(o)
+if __name__ == "__main__":
+    run_test([1, 2, 3, 4, None, None, 5], [[4, 5], [2, 3], [1]])
+    run_test([0,2,4,1,None,3,-1,5,1,None,6,None,8], [[5,1,6,8],[1,3,-1],[2,4],[0]])
