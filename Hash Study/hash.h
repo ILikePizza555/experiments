@@ -24,7 +24,7 @@ public:
 
         for(std::size_t i = 0; i < size; i++)
         {
-            unsigned long seed = (rv << 32) | data[i];
+            unsigned long seed = (rv << (sizeof(unsigned long) / 2)) | data[i];
             rv = (multiplier * seed + increment) % modulus;
         }
 
