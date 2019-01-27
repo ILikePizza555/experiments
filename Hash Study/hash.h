@@ -1,33 +1,18 @@
 #include <cstddef>
+#include <cstdint>
 
 /**
  * A hashing algorithm based on a Linear Congruential Generator
  */
-class LCRHash
+template<uint64_t modulus = INT64_MAX, uint64_t multiplier = 1103515245, uint64_t increment = 12345>
+uint64_t LCRHash(uint32_t* data, std::size_t length)
 {
-private:
-    const unsigned long modulus;
-    const unsigned long multiplier;
-    const unsigned long increment;
-
-public:
-    explicit LCRHash(unsigned long modulus      = 2147483648,
-                     unsigned long multiplier   = 1103515245,
-                     unsigned long increment    = 12345) :
-                     modulus(modulus),
-                     multiplier(multiplier),
-                     increment(increment) {}
-
-    unsigned long hash(unsigned short* data, std::size_t size)
+    uint64_t rv = 0;
+    for(std::size_t i = 0; i < length; i++)
     {
-        unsigned long rv = 0;
-
-        for(std::size_t i = 0; i < size; i++)
-        {
-            unsigned long seed = (rv << (sizeof(unsigned long) / 2)) | data[i];
-            rv = (multiplier * seed + increment) % modulus;
-        }
-
-        return rv;
+        uint64_t seed = (rv << (sizeof(uint64_t) / 2)) | data[i];
+        rv = (multiplier * seed + increment) % modulus;
     }
-};
+
+    return rv;
+}
