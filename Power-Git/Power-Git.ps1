@@ -129,6 +129,9 @@ function Save-Git {
         [GitRepo]
         $Repo = [GitRepo]::new("."),
 
+        [switch]
+        $CheckpointAll,
+
         # Commit message
         [Parameter(Mandatory=$true, Position=0)]
         [string]
@@ -136,7 +139,8 @@ function Save-Git {
     )
 
     Push-Location $Repo.Path
-    git commit -m $Message
+    if ($CheckpointAll) {git commit -a -m $Message}
+    else {git commit -m $Message}
     Pop-Location
     return $Repo
 }
@@ -151,9 +155,11 @@ function Get-GitFileStatus {
     $status_output = git status --porcelain
     Pop-Location
 
-    ForEach-Object -InputObject $status_output {
-        $is = Convert-StringToGitFileStatusAttribute($_.Chars(0))
-        $ts = Convert-StringToGitFileStatusAttribute($_.Chars(1))
-        [GitFileStatus]::new($Repo, $_.Substring(3), $is, $ts)
+    if ($status_output.Length -gt 0) {
+        ForEach-Object -InputObject $status_output {
+            $is = Convert-StringToGitFileStatusAttribute($_.Chars(0))
+            $ts = Convert-StringToGitFileStatusAttribute($_.Chars(1))
+            [GitFileStatus]::new($Repo, $_.Substring(3), $is, $ts)
+        }
     }
 }
