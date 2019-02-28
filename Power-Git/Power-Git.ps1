@@ -109,6 +109,21 @@ function Set-GitBranch {
     return $Repo
 }
 
+function Checkpoint-Git {
+    Param(
+        [GitRepo]
+        $Repo = [GitRepo]::new("."),
+
+        [string[]]
+        $FileNames = @(".")
+    )
+
+    Push-Location $Repo.Path
+    git add ($FileNames -join " ")
+    Pop-Location
+    return $Repo
+}
+
 function Get-GitFileStatus {
     Param(
         [GitRepo]
