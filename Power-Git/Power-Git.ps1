@@ -124,6 +124,23 @@ function Checkpoint-Git {
     return $Repo
 }
 
+function Save-Git {
+    Param(
+        [GitRepo]
+        $Repo = [GitRepo]::new("."),
+
+        # Commit message
+        [Parameter(Mandatory=$true, Position=0)]
+        [string]
+        $Message
+    )
+
+    Push-Location $Repo.Path
+    git commit -m $Message
+    Pop-Location
+    return $Repo
+}
+
 function Get-GitFileStatus {
     Param(
         [GitRepo]
