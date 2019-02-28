@@ -4,7 +4,7 @@
 /**
  * A hashing algorithm based on a Linear Congruential Generator
  */
-template<uint64_t modulus = INT64_MAX, uint64_t multiplier = 1103515245, uint64_t increment = 12345>
+template<uint64_t modulus = INT64_MAX, uint64_t multiplier = 6364136223846793005, uint64_t increment = 12345>
 uint64_t LCRHash(uint32_t* data, std::size_t length)
 {
     uint64_t rv = 0;
